@@ -22,6 +22,13 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        xs: "480px",
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+      },
       colors: {
         border: "var(--border)",
         input: "var(--input)",
@@ -79,11 +86,18 @@ const config = {
             backgroundPosition: "-200% 0",
           },
         },
+        scroll: {
+          to: {
+            transform: "translate(calc(-50% - 0.5rem))",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "background-shine": "background-shine 2s linear infinite",
+        scroll:
+          "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
       },
     },
   },

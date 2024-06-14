@@ -6,6 +6,8 @@ import Hero from "@/components/hero";
 import Navbar from "@/components/navbar";
 import Services from "@/components/services";
 import Contact from "@/components/contact";
+import { Testimonial } from "@/components/testimonial";
+import Projects from "@/components/projects";
 
 export default function Home() {
   const navbarHeight = 160; // Adjust this value based on your actual navbar height
@@ -13,6 +15,8 @@ export default function Home() {
   const aboutRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
+  const testimonialRef = useRef<HTMLDivElement>(null);
+  const projectsRef = useRef<HTMLDivElement>(null);
 
   const [activeSection, setActiveSection] = useState<string>("");
 
@@ -22,6 +26,8 @@ export default function Home() {
       { ref: aboutRef, id: "about" },
       { ref: servicesRef, id: "services" },
       { ref: contactRef, id: "contact" },
+      { ref: testimonialRef, id: "testimonial" },
+      { ref: projectsRef, id: "projects" },
     ];
 
     const observer = new IntersectionObserver(
@@ -75,6 +81,16 @@ export default function Home() {
         top: contactRef.current.offsetTop - navbarHeight,
         behavior: "smooth",
       });
+    } else if (section === "testimonial" && testimonialRef.current) {
+      window.scrollTo({
+        top: testimonialRef.current.offsetTop - navbarHeight,
+        behavior: "smooth",
+      });
+    } else if (section === "projects" && projectsRef.current) {
+      window.scrollTo({
+        top: projectsRef.current.offsetTop - navbarHeight,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -90,6 +106,14 @@ export default function Home() {
 
       <div ref={servicesRef} id="services">
         <Services />
+      </div>
+
+      <div ref={projectsRef} id="projects">
+        <Projects />
+      </div>
+
+      <div ref={testimonialRef} id="testimonial">
+        <Testimonial />
       </div>
 
       <div ref={contactRef} id="contact" className="relative z-0">

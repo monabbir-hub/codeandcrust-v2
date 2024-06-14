@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { Globe } from "./_components/globe";
 import emailjs from "@emailjs/browser";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { slideIn } from "@/lib/motion";
 
 interface FormState {
@@ -18,6 +18,9 @@ interface FormState {
 }
 
 const Contact: React.FC = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true });
+
   const formRef: RefObject<HTMLFormElement> = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,7 +34,8 @@ const Contact: React.FC = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const { target } = e;
+    const { name, value } = target;
     setForm({ ...form, [name]: value });
   };
 
@@ -75,13 +79,12 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-8 relative">
-      <div className="bg-white dark:bg-black w-full h-[4.5rem] mt-20 flex-col" />
+    <section id="contact" className="py-8 relative" ref={sectionRef}>
       <div className="xl:mt-10 flex xl:flex-row flex-col gap-10 overflow-hidden items-center justify-center relative">
         <motion.div
           variants={slideIn("left", "tween", 0.2, 1)}
           initial="hidden"
-          animate="show"
+          animate={isInView ? "show" : "hidden"}
           className="flex-[0.75] bg-black-100 p-6 rounded-2xl max-w-lg w-full z-10"
         >
           <p className="sm:text-[14px] text-[16px] xs:text-[12px] text-primary uppercase tracking-wider text-center">
@@ -105,7 +108,7 @@ const Contact: React.FC = () => {
                 value={form.name}
                 onChange={handleChange}
                 placeholder="What's your good name?"
-                className="bg-tertiary py-2 px-4 placeholder:text-primary text-white rounded-lg outline-none border-none font-medium"
+                className="bg-tertiary py-2 px-4 placeholder:text-primary text-foreground rounded-lg outline-none border-none font-medium"
               />
             </label>
             <label className="flex flex-col">
@@ -118,7 +121,7 @@ const Contact: React.FC = () => {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="What's your email address?"
-                className="bg-tertiary py-2 px-4 placeholder:text-primary text-white rounded-lg outline-none border-none font-medium"
+                className="bg-tertiary py-2 px-4 placeholder:text-primary text-foreground rounded-lg outline-none border-none font-medium"
               />
             </label>
             <label className="flex flex-col">
@@ -131,7 +134,7 @@ const Contact: React.FC = () => {
                 value={form.message}
                 onChange={handleChange}
                 placeholder="What you want to say?"
-                className="bg-tertiary py-2 px-4 placeholder:text-primary text-white rounded-lg outline-none border-none font-medium"
+                className="bg-tertiary py-2 px-4 placeholder:text-primary text-foreground rounded-lg outline-none border-none font-medium"
               />
             </label>
             <button
@@ -143,12 +146,17 @@ const Contact: React.FC = () => {
             </button>
           </form>
         </motion.div>
-        <div className="flex-[0.75] max-w-[35rem] w-full lg:aspect-square aspect-auto lg:relative absolute lg:order-2 order-1">
+        <motion.div
+          variants={slideIn("right", "tween", 0.2, 1)}
+          initial="hidden"
+          animate={isInView ? "show" : "hidden"}
+          className="flex-[0.75] max-w-[35rem] w-full lg:aspect-square aspect-auto lg:relative absolute lg:order-2 order-1"
+        >
           <Globe />
-        </div>
+        </motion.div>
       </div>
       {modalVisible && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg text-center">
             <p>{modalMessage}</p>
             <button

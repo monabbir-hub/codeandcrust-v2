@@ -1,29 +1,6 @@
-export interface AnimationProps {
-  hidden:
-    | {
-        y?: number | string;
-        x?: number | string;
-        scale?: number;
-        opacity?: number;
-      }
-    | {};
-  show: {
-    y?: number | string;
-    x?: number | string;
-    scale?: number;
-    opacity?: number;
-    transition: {
-      type?: string;
-      duration?: number;
-      delay?: number;
-      ease?: string;
-      staggerChildren?: number;
-      delayChildren?: number;
-    };
-  };
-}
+import { Variants } from "framer-motion";
 
-export const textVariant = (delay: number): AnimationProps => {
+export const textVariant = (delay: number): Variants => {
   return {
     hidden: {
       y: -50,
@@ -46,7 +23,7 @@ export const fadeIn = (
   type: string,
   delay: number,
   duration: number
-): AnimationProps => {
+): Variants => {
   return {
     hidden: {
       x: direction === "left" ? 100 : direction === "right" ? -100 : 0,
@@ -67,7 +44,7 @@ export const fadeIn = (
   };
 };
 
-export const zoomIn = (delay: number, duration: number): AnimationProps => {
+export const zoomIn = (delay: number, duration: number): Variants => {
   return {
     hidden: {
       scale: 0,
@@ -91,7 +68,7 @@ export const slideIn = (
   type: string,
   delay: number,
   duration: number
-) => {
+): Variants => {
   return {
     hidden: {
       x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
@@ -113,7 +90,7 @@ export const slideIn = (
 export const staggerContainer = (
   staggerChildren: number,
   delayChildren?: number
-): AnimationProps => {
+): Variants => {
   return {
     hidden: {},
     show: {

@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useRef } from "react";
 import { EvervaultCard, Icon } from "../ui/evervault-card";
 import { services } from "@/lib/constants";
+import { motion, useInView } from "framer-motion";
+import { fadeIn, textVariant } from "@/lib/motion";
 
 const Services = () => {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true });
+
   return (
-    <section id="services" className="mb-10">
+    <section id="services" className="mb-10" ref={sectionRef}>
       <div className="bg-white dark:bg-black w-full h-[4.5rem] mt-20 " />
-      <div className="flex flex-col items-center justify-center mt-20 pb-20">
+      <motion.div
+        initial="hidden"
+        animate={isInView ? "show" : "hidden"}
+        variants={textVariant(0.2)}
+        className="flex flex-col items-center justify-center mt-20 pb-20"
+      >
         <h2 className="font-bold text-3xl tracking-wider">Services</h2>
-      </div>
-      <div className="flex flex-wrap items-start justify-between lg:gap-1 gap-y-8">
+      </motion.div>
+      <motion.div
+        initial="hidden"
+        animate={isInView ? "show" : "hidden"}
+        variants={fadeIn("", "", 0.1, 1)}
+        className="flex flex-wrap items-start justify-between lg:gap-1 gap-y-8"
+      >
         {services.map((item) => (
           <div
             key={item.title}
@@ -27,7 +42,7 @@ const Services = () => {
             </h3>
           </div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 };
